@@ -5,22 +5,25 @@
 #include "SPI.h"
 #include <iostream>
 
-#define PWDN_GPIO_NUM 0
-#define RESET_GPIO_NUM 0
-#define XCLK_GPIO_NUM 0
-#define SIOD_GPIO_NUM 0
-#define SIOC_GPIO_NUM 0
-#define Y9_GPIO_NUM 0
-#define Y8_GPIO_NUM 0
-#define Y7_GPIO_NUM 0
-#define Y6_GPIO_NUM 0
-#define Y5_GPIO_NUM 0
-#define Y4_GPIO_NUM 0
-#define Y3_GPIO_NUM 0
-#define Y2_GPIO_NUM 0
-#define VSYNC_GPIO_NUM 0
-#define HREF_GPIO_NUM 0
-#define PCLK_GPIO_NUM 0
+#define PWDN_GPIO_NUM 38
+#define RESET_GPIO_NUM -1
+
+#define XCLK_GPIO_NUM 15
+#define SIOD_GPIO_NUM 4
+#define SIOC_GPIO_NUM 5
+#define HREF_GPIO_NUM 7
+#define VSYNC_GPIO_NUM 6
+#define PCLK_GPIO_NUM 13
+
+#define CAM_PIN_D7 16
+#define CAM_PIN_D6 17
+#define CAM_PIN_D5 18
+#define CAM_PIN_D4 12
+#define CAM_PIN_D3 8
+#define CAM_PIN_D2 8
+#define CAM_PIN_D1 9
+#define CAM_PIN_D0 11
+
 
 
 static camera_config_t camera_config = {
@@ -29,14 +32,14 @@ static camera_config_t camera_config = {
   .pin_xclk       = XCLK_GPIO_NUM,
   .pin_sccb_sda   = SIOD_GPIO_NUM,
   .pin_sccb_scl   = SIOC_GPIO_NUM,
-  .pin_d7         = Y9_GPIO_NUM,
-  .pin_d6         = Y8_GPIO_NUM,
-  .pin_d5         = Y7_GPIO_NUM,
-  .pin_d4         = Y6_GPIO_NUM,
-  .pin_d3         = Y5_GPIO_NUM,
-  .pin_d2         = Y4_GPIO_NUM,
-  .pin_d1         = Y3_GPIO_NUM,
-  .pin_d0         = Y2_GPIO_NUM,
+  .pin_d7         = CAM_PIN_D7,
+  .pin_d6         = CAM_PIN_D6,
+  .pin_d5         = CAM_PIN_D5,
+  .pin_d4         = CAM_PIN_D4,
+  .pin_d3         = CAM_PIN_D3,
+  .pin_d2         = CAM_PIN_D2,
+  .pin_d1         = CAM_PIN_D1,
+  .pin_d0         = CAM_PIN_D0,
   .pin_vsync      = VSYNC_GPIO_NUM,
   .pin_href       = HREF_GPIO_NUM,
   .pin_pclk       = PCLK_GPIO_NUM,
