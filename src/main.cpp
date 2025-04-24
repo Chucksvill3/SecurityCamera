@@ -103,6 +103,8 @@ config.fb_count = 2;
 
 if (config.pixel_format == PIXFORMAT_JPEG) { // If the pixel format is JPEG
   if(psramFound()){  // If PSRAM is available use it for frame buffer cos it has more memory
+    config.fb_location = CAMERA_FB_IN_PSRAM;
+    config.frame_size = FRAMESIZE_UXGA; // Set the frame size to UXGA (1600x1200)
     config.jpeg_quality = 10;
     config.fb_count = 2;
     config.grab_mode = CAMERA_GRAB_LATEST;
