@@ -72,15 +72,69 @@ typedef struct {
 }camera_buffer;
 
 void setup() {
+  Serial.begin(1150200);
+while (!Serial) {
+  camera_config_t config;
+config.ledc_channel = LEDC_CHANNEL_0;       // LED control channel
+config.ledc_timer = LEDC_TIMER_0;           // LED control timer
+config.pin_d0 = GPIO_NUM_5;                 // Data pins
+config.pin_d1 = GPIO_NUM_18;
+config.pin_d2 = GPIO_NUM_19;
+config.pin_d3 = GPIO_NUM_21;
+config.pin_d4 = GPIO_NUM_36;
+config.pin_d5 = GPIO_NUM_39;
+config.pin_d6 = GPIO_NUM_34;
+config.pin_d7 = GPIO_NUM_35;
+config.pin_xclk = GPIO_NUM_0;               // External clock pin
+// config.pin_pclk = GPIO_NUM_22;              // Pixel clock pin
+// config.pin_vsync = GPIO_NUM_25;             // Vertical sync pin
+// config.pin_href = GPIO_NUM_23;              // Horizontal reference pin
+config.pin_sscb_sda = GPIO_NUM_26;          // Serial data pin
+config.pin_sscb_scl = GPIO_NUM_27;          // Serial clock pin
+config.pin_pwdn = GPIO_NUM_32;              // Power down pin
+config.pin_reset = GPIO_NUM_33;             // Reset pin
+config.xclk_freq_hz = 20000000;             // External clock frequency (20 MHz)
+config.frame_size = FRAMESIZE_QVGA;         // Frame size (e.g., QVGA: 320x240)
+config.pixel_format = PIXFORMAT_JPEG;       // Pixel format (JPEG for streaming)
+config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;  // Frame grab mode
+config.fb_location = CAMERA_FB_IN_PSRAM;   // Frame buffer location
+config.jpeg_quality = 10;                   // JPEG quality (0 = best, 63 = lowest)
+config.fb_count = 2;    
+
+if (config.pixel_format == PIXFORMAT_JPEG) { // If the pixel format is JPEG
+  if(psramFound()){  // If PSRAM is available use it for frame buffer cos it has more memory
+    config.jpeg_quality = 10;
+    config.fb_count = 2;
+    config.grab_mode = CAMERA_GRAB_LATEST;
+  } else {
+    // Limit the frame size when PSRAM is not available to avoid memory issues and use DRAM for frame buffer cos smaller memory
+    config.frame_size = FRAMESIZE_SVGA;
+    config.fb_location = CAMERA_FB_IN_DRAM;
+  }
+} else {
+ 
+  config.frame_size = FRAMESIZE_240X240; // If the pixel format is not JPEG, set the frame size to 240x240
+  config.fb_location = CAMERA_FB_IN_DRAM; // Use DRAM for frame buffer
+  config.grab_mode = CAMERA_GRAB_LATEST;
+#if CONFIG_IDF_TARGET_ESP32S3
+  config.fb_count = 2;
+#endif
+}
+
+
+
+}
+  
   esp_err_t err = camera_init(&camera_config);
   if (err != ESP_OK) {
+  
     Serial.println("Camera initialization failed");
     printf("Camera initialization failed");
     return;
     
   }
 
-  Serial.begin(96000);
+
   Serial.println("Camera initialized successfully");
   Serial.printf("Camera initialized successfully\n");
 
