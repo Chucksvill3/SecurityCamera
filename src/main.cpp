@@ -72,7 +72,8 @@ typedef struct {
 }camera_buffer;
 
 void setup() {
-  if (camera_init(&camera_config) != ESP_OK) {
+  esp_err_t err = camera_init(&camera_config);
+  if (err != ESP_OK) {
     Serial.println("Camera initialization failed");
     printf("Camera initialization failed");
     return;
