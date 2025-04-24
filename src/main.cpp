@@ -58,11 +58,31 @@ static camera_config_t camera_config = {
 // put function declarations here:
 esp_err_t camera_init(const camera_config_t*);
 
+
+// define the camera buffer structure
+typedef struct {
+  uint8_t *buf;
+  size_t  len;
+  size_t width;
+  size_t height;
+  pixformat_t format;
+  struct timeval timestamp;
+  float frame_rate;
+  size_t frame_number;
+}camera_buffer;
+
 void setup() {
-  // put your setup code here, to run once:
-  if(camera_init(&camera_config) != ESP_OK) {
-    std::cout << "Camera intitalization failed" << std::endl; 
+  if (camera_init(&camera_config) != ESP_OK) {
+    Serial.println("Camera initialization failed");
+    printf("Camera initialization failed");
+    return;
+    
   }
+
+  Serial.begin(96000);
+  Serial.println("Camera initialized successfully");
+  Serial.printf("Camera initialized successfully\n");
+
   
 }
 
